@@ -7,6 +7,188 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
     <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    
+        /* ======================
+           SEKCJA EMOTION TRACKER
+           ====================== */
+        .demo-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+        }
+        
+        .emotion-tracker-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .consent-banner {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .consent-banner h3 {
+            margin-top: 0;
+            font-size: 1.4rem;
+        }
+        
+        .consent-banner p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .tracker-wrapper {
+            display: flex;
+            padding: 2rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .video-container {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        #videoEl {
+            width: 100%;
+            display: block;
+            transform: scaleX(-1);
+            background: #000;
+            aspect-ratio: 4/3;
+        }
+        
+        .status-indicator {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            display: flex;
+            align-items: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .pulse {
+            width: 12px;
+            height: 12px;
+            background: #ff4d4d;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { 
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7);
+            }
+            70% { 
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(255, 77, 77, 0);
+            }
+            100% { 
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 77, 77, 0);
+            }
+        }
+        
+        .emotion-chart {
+            flex: 1;
+            min-width: 300px;
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 1.5rem;
+            color: white;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .dominant-emotion {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .chart-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .emotion-bar {
+            display: flex;
+            align-items: center;
+            height: 28px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #2d2d3e;
+        }
+        
+        .emotion-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            min-width: 60px;
+            font-weight: 500;
+            transition: width 0.5s ease;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0 2rem 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            color: #3a36e0;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
 <body>
     <header>
