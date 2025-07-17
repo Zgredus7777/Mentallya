@@ -27,7 +27,12 @@ function initApp() {
     if (document.getElementById('contactForm')) {
         initContactForm();
     }
+      // Inicjalizacja Emotion Tracker
+    if (document.getElementById('emotion-section')) {
+        initEmotionTracker();
+  }
 }
+
 
 // ======================
 // SYSTEM NAWIGACJI
@@ -53,6 +58,215 @@ function initNavigation() {
             if (navLinks) navLinks.classList.remove('active');
         });
     });
+}
+// ======================
+// EMOTION TRACKER MODULE
+// ======================
+const EMOTIONS = ['neutral', 'happy', 'sad', 'angry', 'fearful', 'disgusted', 'surprised'];
+let emotionInterval;
+let emotionData = [];
+let isTracking = false;
+
+function initEmotionTracker() {
+  if (!document.getElementById('emotion-section')) return;
+  
+  console.log('Inicjalizacja modułu Emotion Tracker...');
+  
+  // Elementy UI
+  const consentBtn = document.getElementById('consentBtn');
+  const startBtn = document.getElementById('startEmotionBtn');
+  const stopBtn = document.getElementById('stopEmotionBtn');
+  
+  // Obsługa zdarzeń
+  consentBtn.addEventListener('click', handleConsent);
+  startBtn.addEventListener('click', startTracking);
+  stopBtn.addEventListener('click', stopTracking);
+}
+
+async function handleConsent() {
+  try {
+    // Ukryj banner zgody
+    document.querySelector('.consent-banner').style.display = 'none';
+    
+    // Włącz przyciski
+    document.getElementById('startEmotionBtn').disabled = false;
+    
+    // Załaduj modele AI
+    await loadModels();
+    
+    // Przygotuj wideo
+    const video = document.getElementById('videoEl');
+    const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+    video.srcObject = stream;
+    
+  } catch (error) {
+    console.error('Błąd inicjalizacji tracker emocji:', error);
+    showAlert('Nie udało się uzyskać dostępu do kamery', 'error');
+  }
+}
+
+async function loadModels() {
+  try {
+    // Ścieżki względne do folderu models
+    const modelPath = '/models';
+    
+    await Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri(modelPath),
+      faceapi.nets.faceExpressionNet.loadFromUri(modelPath)
+    ]);
+    
+    console.log('Modele AI załadowane!');
+    return true;
+  } catch (error) {
+    console.error('Błąd ładowania modeli:', error);
+    showAlert('Błąd ładowania modułu analizy emocji', 'error');
+    return false;
+  }
+}
+
+async function startTracking() {
+  if (isTracking) return;
+  
+  const video = document.getElementById('videoEl');
+  const startBtn = document.getElementById('startEmotionBtn');
+  const stopBtn = document.getElementById('stopEmotionBtn');
+  
+  // Reset danych
+  emotionData = [];
+  isTracking = true;
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
+  
+  // Ukryj wyniki (jeśli były widoczne)
+  document.getElementById('emotionResults').classList.add('hidden');
+  
+  console.log('Rozpoczęto śledzenie emocji...');
+  
+  // Główna pętla analizy
+  emotionInterval = setInterval(async () => {
+    if (!isTracking) return;
+    
+    try {
+      const detections = await faceapi.detectSingleFace(
+        video, 
+        new faceapi.TinyFaceDetectorOptions()
+      ).withFaceExpressions();
+      
+      if (detections) {
+        processEmotions(detections.expressions);
+      }
+    } catch (error) {
+      console.error('Błąd detekcji emocji:', error);
+    }
+  }, 1000); // Analiza co 1 sekundę
+}
+
+function processEmotions(expressions) {
+  const timestamp = Date.now();
+  const dataPoint = { timestamp, expressions };
+  
+  // Zapisz dane
+  emotionData.push(dataPoint);
+  
+  // Aktualizuj UI
+  updateEmotionChart(expressions);
+}
+
+function updateEmotionChart(expressions) {
+  const chart = document.getElementById('emotionChart');
+  chart.innerHTML = '';
+  
+  EMOTIONS.forEach(emotion => {
+    const value = expressions[emotion] * 100;
+    const bar = document.createElement('div');
+    bar.className = 'emotion-bar';
+    bar.style.background = getEmotionColor(emotion);
+    bar.style.width = `${value}%`;
+    bar.innerHTML = `<span>${emotion}: ${value.toFixed(1)}%</span>`;
+    chart.appendChild(bar);
+  });
+}
+
+function stopTracking() {
+  if (!isTracking) return;
+  
+  isTracking = false;
+  clearInterval(emotionInterval);
+  
+  // Wyłącz kamerę
+  const video = document.getElementById('videoEl');
+  if (video.srcObject) {
+    video.srcObject.getTracks().forEach(track => track.stop());
+  }
+  
+  // Aktualizuj przyciski
+  document.getElementById('startEmotionBtn').disabled = false;
+  document.getElementById('stopEmotionBtn').disabled = true;
+  
+  // Wygeneruj raport
+  generateEmotionReport();
+  
+  console.log('Zatrzymano śledzenie emocji. Zebrano punktów danych:', emotionData.length);
+}
+
+function generateEmotionReport() {
+  const resultsContainer = document.getElementById('emotionResults');
+  const summaryElement = document.getElementById('emotionSummary');
+  
+  // Oblicz średnie emocje
+  const avgEmotions = {};
+  EMOTIONS.forEach(e => avgEmotions[e] = 0);
+  
+  emotionData.forEach(data => {
+    EMOTIONS.forEach(e => {
+      avgEmotions[e] += data.expressions[e];
+    });
+  });
+  
+  EMOTIONS.forEach(e => {
+    avgEmotions[e] = (avgEmotions[e] / emotionData.length * 100).toFixed(1);
+  });
+  
+  // Znajdź dominującą emocję
+  const dominantEmotion = Object.entries(avgEmotions)
+    .sort((a, b) => b[1] - a[1])[0][0];
+  
+  // Wyświetl wyniki
+  summaryElement.innerHTML = `
+    <p>Twoje dominujące emocje podczas testu:</p>
+    <div class="dominant-emotion">
+      <span class="emotion-badge" style="background:${getEmotionColor(dominantEmotion)}">
+        ${dominantEmotion} (${avgEmotions[dominantEmotion]}%)
+      </span>
+    </div>
+    <div class="emotion-stats">
+      ${EMOTIONS.map(e => `
+        <div class="stat-item">
+          <span class="emotion-label">${e}:</span>
+          <span class="emotion-value">${avgEmotions[e]}%</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  
+  // Pokaż sekcję wyników
+  resultsContainer.classList.remove('hidden');
+  
+  // TODO: Tutaj dodaj kod do rysowania wykresu czasowego
+  // na elemencie <canvas id="emotionTimeline">
+}
+
+function getEmotionColor(emotion) {
+  const colors = {
+    happy: 'linear-gradient(90deg, #4CAF50, #8BC34A)',
+    neutral: 'linear-gradient(90deg, #9E9E9E, #BDBDBD)',
+    sad: 'linear-gradient(90deg, #2196F3, #03A9F4)',
+    angry: 'linear-gradient(90deg, #F44336, #FF5722)',
+    fearful: 'linear-gradient(90deg, #673AB7, #9C27B0)',
+    disgusted: 'linear-gradient(90deg, #795548, #5D4037)',
+    surprised: 'linear-gradient(90deg, #FF9800, #FFC107)'
+  };
+  return colors[emotion] || '#000';
 }
 
 // ======================
