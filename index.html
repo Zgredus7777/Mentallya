@@ -213,7 +213,59 @@
             </nav>
         </div>
     </header>
-
+<!-- Sekcja Emotion Tracker -->
+<section id="emotion-demo" class="demo-section">
+    <div class="container">
+        <h2>Poznaj swoje emocje w czasie rzeczywistym</h2>
+        <p class="subtitle">Nasza innowacyjna technologia analizuje Twoją mimikę podczas testów</p>
+        
+        <div class="emotion-tracker-container">
+            <!-- Dodajemy informację o premium -->
+            <div class="premium-info" id="premiumInfo" style="display: none;">
+                <div class="premium-badge">
+                    <span>PREMIUM</span>
+                </div>
+                <p>Ta funkcja jest dostępna tylko dla użytkowników premium.</p>
+                <a href="premium.html" class="btn">Przejdź na Premium</a>
+            </div>
+            
+            <div class="consent-banner" id="consentBanner">
+                <h3>⚠️ Wymagana zgoda</h3>
+                <p>Analiza emocji wymaga dostępu do kamery. <br><strong>Twoje dane nigdy nie opuszczą przeglądarki!</strong></p>
+                <button id="consentBtn" class="btn">Akceptuję i włączam kamerę</button>
+            </div>
+            
+            <div class="tracker-wrapper">
+                <div class="video-container">
+                    <video id="videoEl" autoplay muted playsinline></video>
+                    <div class="status-indicator">
+                        <div class="pulse"></div>
+                        <span>Analiza aktywna</span>
+                    </div>
+                </div>
+                
+                <div class="emotion-chart" id="emotionChart">
+                    <div class="chart-header">
+                        <h3>Twoje aktualne emocje</h3>
+                        <div class="dominant-emotion">
+                            <span id="dominantEmotionLabel">neutral</span>
+                        </div>
+                    </div>
+                    <div class="chart-bars" id="chartBars"></div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="startEmotionBtn" class="btn" disabled>Rozpocznij analizę</button>
+                <button id="stopEmotionBtn" class="btn-outline" disabled>Zatrzymaj</button>
+            </div>
+        </div>
+        
+        <div class="features-grid">
+            <!-- ... -->
+        </div>
+    </div>
+    </section>
     <main>
         <section id="home" class="hero">
             <div class="container">
