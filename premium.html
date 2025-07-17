@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakiet Premium | Mentallya</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Mental<span>lya</span></div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Strona główna</a></li>
+                    <li><a href="tests.html">Testy</a></li>
+                    <li><a href="premium.html">Premium</a></li>
+                    <li><a href="contact.html">Kontakt</a></li>
+                    <li class="auth-section">
+                        <button id="loginBtn" class="btn-outline">Zaloguj</button>
+                        <button id="registerBtn" class="btn">Rejestracja</button>
+                    </li>
+                    <li><button id="themeToggle" aria-label="Toggle dark mode">🌙</button></li>
+                </ul>
+                <div class="hamburger">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="premium" class="premium-section">
+            <div class="container">
+                <h2>Pakiet Premium</h2>
+                <p class="section-description">Uzyskaj pełny dostęp do wszystkich naszych zasobów</p>
+                
+                <div class="premium-cards">
+                    <div class="premium-card">
+                        <h3>Podstawowy</h3>
+                        <div class="price">49 zł<span>/miesiąc</span></div>
+                        <ul class="features">
+                            <li>Pełny dostęp do wszystkich testów</li>
+                            <li>Szczegółowe raporty PDF</li>
+                            <li>Historia wyników</li>
+                            <li>Wsparcie techniczne</li>
+                        </ul>
+                        <button class="btn premium-btn" data-plan="basic">Wybierz plan</button>
+                    </div>
+                    <div class="premium-card featured">
+                        <div class="recommended">Polecany</div>
+                        <h3>Zaawansowany</h3>
+                        <div class="price">99 zł<span>/miesiąc</span></div>
+                        <ul class="features">
+                            <li>Wszystko w planie Podstawowym</li>
+                            <li>Dodatkowe testy psychometryczne</li>
+                            <li>Analiza trendów</li>
+                            <li>Priorytetowe wsparcie</li>
+                        </ul>
+                        <button class="btn premium-btn" data-plan="advanced">Wybierz plan</button>
+                    </div>
+                    <div class="premium-card">
+                        <h3>Rodzinny</h3>
+                        <div class="price">149 zł<span>/miesiąc</span></div>
+                        <ul class="features">
+                            <li>Wszystko w planie Zaawansowanym</li>
+                            <li>Dla 5 członków rodziny</li>
+                            <li>Porównywanie wyników</li>
+                            <li>Dedykowany konsultant</li>
+                        </ul>
+                        <button class="btn premium-btn" data-plan="family">Wybierz plan</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MindCare</h3>
+                    <p>Profesjonalne narzędzia psychologiczne online. Zgodne z wytycznymi WHO i rekomendacjami specjalistów.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Linki</h3>
+                    <ul>
+                        <li><a href="index.html">Strona główna</a></li>
+                        <li><a href="tests.html">Testy</a></li>
+                        <li><a href="premium.html">Premium</a></li>
+                        <li><a href="contact.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Informacje</h3>
+                    <ul>
+                        <li><a href="#" id="privacyLink">Polityka prywatności</a></li>
+                        <li><a href="#" id="termsLink">Regulamin</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MindCare. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Aktywacja Premium</h2>
+            <div id="paymentContent">
+                <!-- Zawartość płatności będzie ładowana dynamicznie -->
+            </div>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Logowanie</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">E-mail</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Hasło</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn">Zaloguj się</button>
+            </form>
+            <p class="modal-footer">Nie masz konta? <a href="#" id="showRegister">Zarejestruj się</a></p>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Rejestracja</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regName">Imię i nazwisko</label>
+                    <input type="text" id="regName" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">E-mail</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Hasło (min. 8 znaków)</label>
+                    <input type="password" id="regPassword" minlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label for="regConfirmPassword">Potwierdź hasło</label>
+                    <input type="password" id="regConfirmPassword" required>
+                </div>
+                <button type="submit" class="btn">Zarejestruj się</button>
+            </form>
+            <p class="modal-footer">Masz już konto? <a href="#" id="showLogin">Zaloguj się</a></p>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Polityka prywatności</h2>
+            <div class="modal-text-content">
+                <p>Twoja prywatność jest dla nas ważna. Oto jak przetwarzamy Twoje dane:</p>
+                <ul>
+                    <li>Wszystkie testy są anonimowe - nie zbieramy danych osobowych bez Twojej zgody</li>
+                    <li>Dane logowania są przechowywane lokalnie w Twojej przeglądarce</li>
+                    <li>Wyniki testów są przechowywane tylko lokalnie, chyba że zdecydujesz się je zapisać</li>
+                    <li>Nie udostępniamy Twoich danych stronom trzecim</li>
+                </ul>
+                <p>Ta aplikacja działa w pełni po stronie klienta i nie wymaga backendu.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Regulamin serwisu</h2>
+            <div class="modal-text-content">
+                <p>Korzystając z tej strony akceptujesz następujące warunki:</p>
+                <ul>
+                    <li>Testy psychologiczne na tej stronie mają charakter informacyjny i nie zastępują diagnozy lekarskiej</li>
+                    <li>Jesteś odpowiedzialny za interpretację wyników testów</li>
+                    <li>W przypadku poważnych problemów psychicznych zalecamy kontakt ze specjalistą</li>
+                    <li>Zastrzegamy sobie prawo do zmian w ofercie testów</li>
+                </ul>
+                <p>Ta aplikacja jest demonstracją możliwości frontendowych i nie oferuje rzeczywistych usług medycznych.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/premium.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moje Konto | Mentallya</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Mental<span>lya</span></div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Strona główna</a></li>
+                    <li><a href="tests.html">Testy</a></li>
+                    <li><a href="premium.html">Premium</a></li>
+                    <li><a href="contact.html">Kontakt</a></li>
+                    <li class="auth-section">
+                        <button id="accountBtn" class="btn-outline active">Moje Konto</button>
+                        <button id="logoutBtnHeader" class="btn-outline">Wyloguj</button>
+                    </li>
+                    <li><button id="themeToggle" aria-label="Toggle dark mode">🌙</button></li>
+                </ul>
+                <div class="hamburger">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="account-section">
+            <div class="container">
+                <div class="account-header">
+                    <h1>Moje Konto</h1>
+                    <button id="deleteAccountBtn" class="btn-outline danger">Usuń konto</button>
+                </div>
+
+                <div class="account-content">
+                    <div class="account-info">
+                        <h2>Dane konta</h2>
+                        <div class="info-card">
+                            <div class="info-row">
+                                <span class="info-label">Imię i nazwisko:</span>
+                                <span id="userName" class="info-value">Ładowanie...</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Email:</span>
+                                <span id="userEmail" class="info-value">Ładowanie...</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Status konta:</span>
+                                <span id="userStatus" class="info-value premium-badge">Ładowanie...</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Data wygaśnięcia Premium:</span>
+                                <span id="userExpiry" class="info-value">Ładowanie...</span>
+                            </div>
+                        </div>
+
+                        <div class="account-actions">
+                            <button id="changePasswordBtn" class="btn-outline">Zmień hasło</button>
+                            <button id="upgradePremiumBtn" class="btn">Ulepsz do Premium</button>
+                        </div>
+                    </div>
+
+                    <div class="account-history">
+                        <h2>Historia testów</h2>
+                        <div class="history-filters">
+                            <button class="filter-btn active" data-filter="all">Wszystkie</button>
+                            <button class="filter-btn" data-filter="last-month">Ostatni miesiąc</button>
+                            <button class="filter-btn" data-filter="premium">Tylko Premium</button>
+                        </div>
+                        <div id="testHistory" class="history-list">
+                            <!-- Historia będzie ładowana dynamicznie -->
+                            <div class="loading-history">
+                                <p>Ładowanie historii testów...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modale specyficzne dla konta -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Zmiana hasła</h2>
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label for="currentPassword">Obecne hasło</label>
+                    <input type="password" id="currentPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Nowe hasło (min. 8 znaków)</label>
+                    <input type="password" id="newPassword" minlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmNewPassword">Potwierdź nowe hasło</label>
+                    <input type="password" id="confirmNewPassword" required>
+                </div>
+                <button type="submit" class="btn">Zapisz zmiany</button>
+            </form>
+            <div id="passwordChangeStatus"></div>
+        </div>
+    </div>
+
+    <div id="deleteAccountModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Potwierdzenie usunięcia konta</h2>
+            <div class="warning-message">
+                <p>⚠️ Ta akcja jest nieodwracalna! Wszystkie Twoje dane zostaną trwale usunięte.</p>
+            </div>
+            <form id="confirmDeleteForm">
+                <div class="form-group">
+                    <label for="confirmPassword">Wprowadź hasło aby potwierdzić:</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelDeleteBtn" class="btn-outline">Anuluj</button>
+                    <button type="submit" class="btn danger">Usuń konto</button>
+                </div>
+            </form>
+            <div id="deleteAccountStatus"></div>
+        </div>
+    </div>
+
+    <!-- Wspólne modale (załadowane z main.js) -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Stopka jak w innych plikach -->
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/account.js"></script>
+</body>
+</html>
